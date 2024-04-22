@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package task;
+
+option go_package = "./task";
+
+// 空消息
+message Empty {}
+
+// 任务信息结构体
+message TaskInfo {
+  int64 Id = 1;
+  string UserId = 2;
+  string Title = 3;
+  int64 Type = 4;
+  string Text = 5;
+  string Question_url = 6;
+  string Answer_url = 7;
+  int64 Bonus = 8;
+  int64 State = 9;
+}
+
+//Rank 结构体
+message Rank {
+  int64 Rank = 1;
+  int64 Id = 2;
+  string Name = 3;
+  string Avatar_url = 4;
+  int64 Point = 5;
+}
+
+service Task {
+  rpc GetTaskList(GetTaskListRequest) returns (TaskListReply);
+  rpc TaskInit(TaskInitRequest) returns (TaskListReply);
+  rpc DoTask(DoTaskRequest) returns (DoTaskReply);
+  rpc TaskInfo(TaskInfoRequest) returns (TaskInfoReply);
+  rpc Rank(RankRequest) returns (RankReply);  //排序按照最晚完成的任务时间，按照task的UpdateTime比较，在UserRpc的对应排序之后
+  rpc FailTaskList(Empty) returns (FailTaskListReply);
+  rpc AdminCheckTask (AdminCheckTaskRequest) returns (Empty);
+  rpc TaskVisual(Empty) returns (TaskVisualReply);
+}
+
+message GetTaskListRequest {
+  int64 User_Id = 1;
+}
+
+message TaskInitRequest {
+  int64 User_Id = 1;
+}
+
+message TaskListReply {
+  repeated TaskInfo TaskList = 1;
+}
+
+message DoTaskRequest {
+  int64 Task_Id = 1;
+}
+
+message DoTaskReply {
+  int64 state = 1;
+}
+
+message TaskInfoRequest {
+  int64  Task_Id = 1;
+}
+
+message TaskInfoReply {
+  TaskInfo Task = 1;
+}
+
+message RankRequest {
+  repeated Rank Rank = 1;
+}
+
+message RankReply {
+  repeated Rank Rank = 1;
+}
+
+message FailTaskListReply {
+  repeated TaskInfo FailTaskList = 1;
+}
+
+message AdminCheckTaskRequest {
+  int64 Task_Id = 1;
+  int64 ActionType = 2;
+}
+
+message TaskVisualReply {
+  bytes image_data = 1;
+}

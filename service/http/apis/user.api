@@ -1,0 +1,129 @@
+syntax = "v1"
+
+import "apis/dto/dto.api"
+
+// 不需要鉴权的接口
+@server(
+    group: user
+)
+service app {
+    @handler Register // 用户注册（用户注册只使用身份证和上传的本人头像图片好了）
+    post /platform/user/register (RegisterRequest) returns (RegisterReply)
+
+    @handler Login // 用户登录
+    post /platform/user/login (LoginRequest) returns (LoginReply)
+
+    @handler AdminLogin // 用户登录
+    post /platform/user/adminlogin (AdminLoginRequest) returns (AdminLoginReply)
+}
+
+// 用户注册，还有上传的身份证图片和头像图片放在data中
+type (
+    RegisterRequest {
+        Username string `form:"username"`
+        Password string `form:"password"`
+        Collage  string `form:"collage"`
+    }
+    RegisterReply {
+        BasicReply
+        UserId int64    `json:"user_id"`    //一般用id来在db中找user数据
+        Token  string `json:"token"`
+    }
+)
+
+// 用户登录
+type (
+    LoginRequest {
+        Username string `form:"username"`
+        Password string `form:"password"`
+    }
+    LoginReply {
+        BasicReply
+        UserId int64    `json:"user_id"`
+        Token  string `json:"token"`
+    }
+)
+
+// admin用户登录
+type (
+    AdminLoginRequest {
+        Username string `form:"username"`
+        Password string `form:"password"`
+    }
+    AdminLoginReply {
+        BasicReply
+        UserId int64    `json:"user_id"`
+        Token  string `json:"token"`
+    }
+)
+
+// 需要user鉴权的接口
+@server(
+    group: user
+    middleware: UserAuth
+)
+service app {
+    @handler GetUserInfo // 获取用户信息
+    get /platform/user (GetUserInfoRequest) returns (GetUserInfoReply)
+
+    @handler UpgradeChar //积分升级人物
+    post /platform/user/upgradechar (UpgradeCharRequest) returns (UpgradeCharReply)
+
+}
+
+// 获取用户信息
+type (
+    GetUserInfoRequest {
+        Token  string `form:"token"`
+    }
+    GetUserInfoReply {
+        BasicReply
+        User User   `json:"user"`
+    }
+)
+
+// 积分升级人物（默认升级行为）
+type (
+    UpgradeCharRequest {
+        Token  string `form:"token"`
+    }
+    UpgradeCharReply {
+        BasicReply
+    }
+)
+
+// 需要admin鉴权的接口
+@server(
+    group: user
+    middleware: AdminAuth
+)
+service app {
+    @handler AdminLoadStu // 导入用户信息
+    post /platform/user/load (AdminLoadStuRequest) returns (AdminLoadStuReply)
+
+    @handler UserVisual // 用户登录可视化
+    post /platform/user/visual (UserVisualRequest) returns (UserVisualReply)
+}
+
+// 导入学生信息,还有一组学生照片没写出来
+type (
+    AdminLoadStuRequest {
+        Student []Student `json:"student"`
+        Token  string `form:"token"`
+    }
+    AdminLoadStuReply {
+        BasicReply
+    }
+)
+
+// 用户登录可视化(不能直接使用url，可以考虑缓存达到响应速度要求)
+type (
+    UserVisualRequest {
+        Token  string `form:"token"`
+    }
+    UserVisualReply {
+        BasicReply
+    }
+)
+
+

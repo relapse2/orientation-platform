@@ -1,0 +1,162 @@
+syntax = "v1"
+
+import "apis/dto/dto.api"
+
+// 需要user鉴权的接口
+@server(
+    middleware: UserAuth
+    group: task
+)
+service app {
+    @handler TaskList // 任务列表
+    get /platform/task/list (TaskListRequest) returns (TaskListReply)
+
+    @handler TaskInit // 用户手动初始化
+    post /platform/task/init (TaskInitRequest) returns (TaskInitReply)
+
+    @handler DoTask //处理任务(处理任务不成功，则转交给人工审核，改变一下state)
+    post /douyin/task/do (DoTaskRequest) returns (DoTaskReply)
+
+    @handler TaskInfo // 任务信息（和adminsettask共用一下rpc接口）
+    get /platform/task (TaskInfoRequest) returns (TaskInfoReply)
+
+    @handler Rank //任务排行榜（可以调user的rpc来进一步实现）
+    post /douyin/task/rank (RankRequest) returns (RankReply)
+
+}
+
+// 任务列表
+type (
+    TaskListRequest {
+        Token  string `form:"token"`
+    }
+    TaskListReply {
+        BasicReply
+        TaskList []Task `json:"task_list"`
+    }
+)
+
+// 初始化任务
+type (
+    TaskInitRequest {
+        Token  string `form:"token"`
+    }
+    TaskInitReply {
+        BasicReply
+        TaskList []Task   `json:"task_list"`
+    }
+)
+
+// 完成任务(图片从http中的请求拿)
+type (
+    DoTaskRequest {
+        TaskId    int64    `form:"task_id"`
+        Token      string `form:"token"`
+        //ActionType int64    `form:"action_type"`
+    }
+    DoTaskReply {
+        BasicReply
+        State     int64 `json:"state"`
+    }
+)
+
+// 任务完成情况排行榜
+type (
+    RankRequest {
+        Token  string `form:"token"`
+        Page   int64  `form:"page"`
+        size   int64  `form:"json"`
+    }
+    RankReply {
+        BasicReply
+        Ranklist []Rank `json:"rank_list"`
+        Total_Page int64 `json:"total_page"`
+    }
+    Rank {
+        Rank          int64   `json:"rank"`
+        Id            int64    `json:"id"`
+        Name          string `json:"name"`
+        AvatarUrl 	  string `json:"avatar_url"`
+        Point         int64   `json:"point"`
+    }
+)
+
+// 获取任务信息
+type (
+    TaskInfoRequest {
+        TaskId int64    `form:"task_id"`
+        Token  string `form:"token"`
+    }
+    TaskInfoReply {
+        BasicReply
+        Task Task   `json:"task"`
+    }
+)
+
+
+
+// 需要admin鉴权的接口
+@server(
+    middleware: AdminAuth
+    group: task
+)
+service app {
+    @handler AdminTaskInfo // 任务信息
+    get /platform/task/admininfo (AdminTaskInfoRequest) returns (AdminTaskInfoReply)
+
+    @handler FailTaskList// 审核失败任务列表
+    get /platform/task/faillist (FailTaskListRequest) returns (FailTaskListReply)
+
+    @handler AdminCheckTask //人工审核
+    post /douyin/task/check (AdminCheckTaskRequest) returns (AdminCheckTaskReply)
+
+    @handler TaskVisual //任务完成情况可视化
+    post /douyin/task/visual (TaskVisualRequest) returns (TaskVisualReply)
+
+}
+
+// 获取单个任务信息,admin版，实际上和上面的一样,调用同一个rpc即可
+type (
+    AdminTaskInfoRequest {
+        TaskId int64    `form:"task_id"`
+        Token  string `form:"token"`
+    }
+    AdminTaskInfoReply {
+        BasicReply
+        Task Task   `json:"task"`
+    }
+)
+
+
+// 机器审核失败视频列表
+type (
+    FailTaskListRequest {
+        Token  string `form:"token"`
+    }
+    FailTaskListReply {
+        BasicReply
+        TaskList []Task `json:"task_list"`
+    }
+)
+
+// 人工审核(失败删answer图片)
+type (
+    AdminCheckTaskRequest {
+        TaskId int64`form:"task_id"`
+        ActionType int64    `form:"action_type"`
+        Token string `form:"token"`
+    }
+    AdminCheckTaskReply {
+        BasicReply
+    }
+)
+
+// 任务完成情况可视化
+type (
+    TaskVisualRequest {
+        Token  string `form:"token"`
+    }
+    TaskVisualReply {
+        BasicReply
+    }
+)

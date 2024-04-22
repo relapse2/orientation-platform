@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package ad;
+
+option go_package = "./ad";
+
+// 空消息
+message Empty {}
+
+// 广告结构体
+message AdInfo {
+  int64  id = 1;
+  string owner = 2;
+  string name = 3;
+  string content = 4;
+  string image_url = 5;
+  string site_url = 6;
+}
+
+service Ad {
+  rpc AdminSetAd(AdminSetAdRequest) returns (Empty);
+  rpc CheckCost(CheckCostRequest) returns (CheckCostReply);
+  rpc AdList(Empty) returns (AdListReply);
+  rpc AdInfo(AdInfoRequest) returns (AdInfoReply);
+  rpc ClickAd(ClickAdRequest) returns (Empty);
+  rpc SendAd(SendAdRequest) returns (SendAdReply); //http接口里和GetUserById配合，找到target
+}
+
+message AdminSetAdRequest {
+  int64  id = 1;
+  string owner = 2;
+  string name = 3;
+  string content = 4;
+  string image_url = 5;
+  string site_url = 6;
+}
+
+message CheckCostRequest {
+  int64 AdId = 1;
+}
+
+message CheckCostReply {
+  int64  Cost = 1;
+}
+
+message AdListReply {
+  repeated AdInfo AdList = 1;
+}
+
+message AdInfoRequest {
+  int64  Ad_Id = 1;
+}
+
+message AdInfoReply {
+  AdInfo Ad = 1;
+}
+
+message ClickAdRequest {
+  int64 AdId = 1;
+}
+
+message SendAdRequest {
+  string District = 1;
+  string Sex = 2;
+  string Collage = 3;
+}
+
+message SendAdReply {
+  AdInfo Ad = 1;
+}

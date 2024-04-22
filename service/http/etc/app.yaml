@@ -1,0 +1,40 @@
+# 启动配置
+Name: orientation-platform
+Host: 0.0.0.0
+Port: 8080
+MaxBytes: 104857600 # 100MB
+Timeout: 100000 # 100s
+
+# RPC 配置
+TaskRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: task.rpc
+
+AdRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: ad.rpc
+
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+# JWT 配置
+UserAuth:
+  AccessSecret: ThisIsUserSecret
+  AccessExpire: 1296000         # 15 天
+
+AdminAuth:
+  AccessSecret: ThisIsAdminSecret
+  AccessExpire: 1296000         # 15 天
+
+OSS:
+  Endpoint: oss-cn-hongkong.aliyuncs.com
+  AccessKeyID: xxxxxxx
+  AccessKeySecret: xxxxxx
+  BucketName: orientation-platform

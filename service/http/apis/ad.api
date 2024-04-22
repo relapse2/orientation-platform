@@ -1,0 +1,110 @@
+syntax = "v1"
+
+import "apis/dto/dto.api"
+
+@server(
+    middleware: AdminAuth
+    group: ad
+)
+
+service app {
+    @handler AdminSetAd // 广告投放，image在mutipart中取
+    post /platform/ad/adminset (AdminSetAdRequest) returns (AdminSetAdReply)
+
+    @handler CheckCost // 广告花费结算
+    post /platform/ad/checkcost (CheckCostRequest) returns (CheckCostReply)
+
+    @handler AdList // 现有广告列表
+    get /platform/ad/adlist (AdListRequest) returns (AdListReply)
+
+    @handler AdInfo // 广告信息
+    get /platform/ad/adinfo (AdInfoRequest) returns (AdInfoReply)
+
+}
+
+// 投放广告
+type (
+    AdminSetAdRequest {
+        Token      string `from:"token"`
+        Owner     string    `json:"owner"`
+        Name      string    `json:"name"`
+        Content    string   `json:"content"`
+        SiteUrl    string   `json:"site_url"`
+    }
+    AdminSetAdReply {
+        BasicReply
+    }
+)
+
+// 广告花费结算
+type (
+    CheckCostRequest {
+        Token      string `from:"token"`
+        AdId       int64  `from:"ad_id"`
+    }
+    CheckCostReply {
+        Cost       int64  `json:"cost"`
+        BasicReply
+    }
+)
+
+// 广告列表
+type (
+    AdListRequest {
+        Token  string `form:"token"`
+    }
+    AdListReply {
+        BasicReply
+        AdList []Ad `json:"ad_list"`
+    }
+)
+
+// 广告信息
+type (
+    AdInfoRequest {
+        AdId int64    `form:"ad_id"`
+        Token  string `form:"token"`
+    }
+    AdInfoReply {
+        BasicReply
+        Ad Ad  `json:"ad"`
+    }
+)
+
+
+
+@server(
+    middleware: UserAuth
+    group: ad
+)
+
+service app {
+    @handler  SendAd// 推荐广告发送
+    get /platform/ad/sendad (SendAdRequest) returns (SendAdReply)
+
+    @handler  ClickAd// 用户点击广告，后续缓存计数，定时任务什么的
+    post /platform/ad/clickad (ClickAdRequest) returns (ClickAdReply)
+}
+
+
+// 发送广告
+type (
+    SendAdRequest {
+        Token      string `from:"token"`
+    }
+    SendAdReply {
+        BasicReply
+        Ad         Ad    `json:"ad"`
+    }
+)
+
+//点击广告
+type (
+    ClickAdRequest {
+        AdId       int64  `from:"ad_id"`
+        Token      string `from:"token"`
+    }
+    ClickAdReply {
+        BasicReply
+    }
+)

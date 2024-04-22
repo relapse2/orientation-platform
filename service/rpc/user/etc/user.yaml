@@ -1,0 +1,17 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: user.rpc
+
+DBList:
+  Mysql:
+    Address: 127.0.0.1:3306
+    Username: root
+    Password: "12345678"
+    DBName: orientation-platform
+    TablePrefix: ""
+  Redis:
+    Address: 127.0.0.1:6379
+    Password:

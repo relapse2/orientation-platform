@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+// 空消息
+message Empty {}
+
+// 学生信息结构体
+message Student {
+  int64 Id = 1;
+  string Name = 2;
+  string Id_card = 3;
+  string ImageUrl = 4;
+}
+//Rank 结构体
+message Rank {
+  int64 Rank = 1;
+  int64 Id = 2;
+  string Name = 3;
+  string Avatar_url = 4;
+  int64 Point = 5;
+}
+
+service User {
+  rpc GetUserByName(GetUserByNameRequest) returns (GetUserReply);
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserReply);
+  rpc GetAdminByName(GetAdminByNameRequest) returns (GetAdminReply);
+  rpc CreateUser(CreateUserRequest) returns (CreatUserReply);
+  rpc UpdateChar(UpgradeCharRequest) returns (Empty);
+  rpc AdminLoadStu(AdminLoadStuRequest) returns (Empty);
+  rpc UserVisual(Empty) returns (UserVisualReply);
+  rpc RankByPoints(Empty) returns (RankByPointsReply);
+}
+
+message GetUserByNameRequest {
+  string Name = 1;
+}
+
+message GetUserByIdRequest {
+  int64 Id = 1;
+}
+
+message GetUserReply {
+  int64   Id = 1;
+  string  Name = 2;
+  string  Password = 3;
+  int64   Point = 4;
+  string  AvatarUrl = 5;
+  string  CharacterUrl = 6;
+  string  Sex = 7;
+  string  Collage = 8;
+}
+
+message GetAdminByNameRequest {
+  string Name = 1;
+}
+
+message GetAdminReply {
+  int64   Id = 1;
+  string  Name = 2;
+  string  Password = 3;
+}
+
+message CreateUserRequest {
+  string Name = 1;
+  string Password = 2;
+}
+
+message CreatUserReply {
+  int64 Id = 1;
+}
+
+message UpgradeCharRequest {
+  int64  Id = 1;
+}
+
+message AdminLoadStuRequest {
+  repeated Student Students = 1;
+}
+
+message UserVisualReply {
+  bytes image_data = 1;
+}
+
+message RankByPointsReply {
+  repeated Rank Rank = 1;
+}
