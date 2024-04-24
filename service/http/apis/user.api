@@ -17,12 +17,13 @@ service app {
     post /platform/user/adminlogin (AdminLoginRequest) returns (AdminLoginReply)
 }
 
-// 用户注册，还有上传的身份证图片和头像图片放在data中
+// 用户注册，头像图片放在data中识别
 type (
     RegisterRequest {
         Username string `form:"username"`
         Password string `form:"password"`
         Collage  string `form:"collage"`
+        IdCard   string `form:"id_card"`
     }
     RegisterReply {
         BasicReply

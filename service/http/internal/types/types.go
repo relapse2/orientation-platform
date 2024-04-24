@@ -3,10 +3,10 @@ package types
 
 type AdminSetAdRequest struct {
 	Token   string `from:"token"`
-	Owner   string `json:"owner"`
-	Name    string `json:"name"`
-	Content string `json:"content"`
-	SiteUrl string `json:"site_url"`
+	Owner   string `form:"owner"`
+	Name    string `form:"name"`
+	Content string `form:"content"`
+	SiteUrl string `form:"site_url"`
 }
 
 type AdminSetAdReply struct {
@@ -214,6 +214,7 @@ type RegisterRequest struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
 	Collage  string `form:"collage"`
+	IdCard   string `form:"id_card"`
 }
 
 type RegisterReply struct {

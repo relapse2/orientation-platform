@@ -26,10 +26,10 @@ service app {
 type (
     AdminSetAdRequest {
         Token      string `from:"token"`
-        Owner     string    `json:"owner"`
-        Name      string    `json:"name"`
-        Content    string   `json:"content"`
-        SiteUrl    string   `json:"site_url"`
+        Owner     string    `form:"owner"`
+        Name      string    `form:"name"`
+        Content    string   `form:"content"`
+        SiteUrl    string   `form:"site_url"`
     }
     AdminSetAdReply {
         BasicReply

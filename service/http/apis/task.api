@@ -11,17 +11,17 @@ service app {
     @handler TaskList // 任务列表
     get /platform/task/list (TaskListRequest) returns (TaskListReply)
 
-    @handler TaskInit // 用户手动初始化
+    @handler TaskInit // 用户手动初始化，返回任务列表
     post /platform/task/init (TaskInitRequest) returns (TaskInitReply)
 
     @handler DoTask //处理任务(处理任务不成功，则转交给人工审核，改变一下state)
-    post /douyin/task/do (DoTaskRequest) returns (DoTaskReply)
+    post /platform/task/do (DoTaskRequest) returns (DoTaskReply)
 
     @handler TaskInfo // 任务信息（和adminsettask共用一下rpc接口）
     get /platform/task (TaskInfoRequest) returns (TaskInfoReply)
 
     @handler Rank //任务排行榜（可以调user的rpc来进一步实现）
-    post /douyin/task/rank (RankRequest) returns (RankReply)
+    post /platform/task/rank (RankRequest) returns (RankReply)
 
 }
 
@@ -108,10 +108,10 @@ service app {
     get /platform/task/faillist (FailTaskListRequest) returns (FailTaskListReply)
 
     @handler AdminCheckTask //人工审核
-    post /douyin/task/check (AdminCheckTaskRequest) returns (AdminCheckTaskReply)
+    post /platform/task/check (AdminCheckTaskRequest) returns (AdminCheckTaskReply)
 
     @handler TaskVisual //任务完成情况可视化
-    post /douyin/task/visual (TaskVisualRequest) returns (TaskVisualReply)
+    post /platform/task/visual (TaskVisualRequest) returns (TaskVisualReply)
 
 }
 

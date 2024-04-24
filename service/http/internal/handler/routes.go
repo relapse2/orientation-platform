@@ -75,7 +75,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/douyin/task/do",
+					Path:    "/platform/task/do",
 					Handler: task.DoTaskHandler(serverCtx),
 				},
 				{
@@ -85,7 +85,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/douyin/task/rank",
+					Path:    "/platform/task/rank",
 					Handler: task.RankHandler(serverCtx),
 				},
 			}...,
@@ -108,12 +108,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/douyin/task/check",
+					Path:    "/platform/task/check",
 					Handler: task.AdminCheckTaskHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/douyin/task/visual",
+					Path:    "/platform/task/visual",
 					Handler: task.TaskVisualHandler(serverCtx),
 				},
 			}...,
