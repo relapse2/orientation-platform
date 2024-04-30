@@ -11,7 +11,7 @@ service app {
     @handler TaskList // 任务列表
     get /platform/task/list (TaskListRequest) returns (TaskListReply)
 
-    @handler TaskInit // 用户手动初始化，返回任务列表
+    @handler TaskInit // 用户手动初始化，返回任务列表，目前固定任务
     post /platform/task/init (TaskInitRequest) returns (TaskInitReply)
 
     @handler DoTask //处理任务(处理任务不成功，则转交给人工审核，改变一下state)

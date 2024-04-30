@@ -25,12 +25,5 @@ type Config struct {
 		AccessExpire int64
 	}
 
-	OSS   oss.AliyunCfg
-	Redis RedisConf
-}
-
-type RedisConf struct {
-	Address  string
-	Password string
-	//DB       int
+	OSS oss.AliyunCfg
 }

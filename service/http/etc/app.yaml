@@ -34,7 +34,7 @@ AdminAuth:
   AccessExpire: 1296000         # 15 天
 
 OSS:
-  Endpoint: oss-cn-hongkong.aliyuncs.com
-  AccessKeyID: xxxxxxx
+  Endpoint: oss-cn-hangzhou.aliyuncs.com    #用描述的外网
+  AccessKeyID: xxxxxx
   AccessKeySecret: xxxxxx
   BucketName: orientation-platform

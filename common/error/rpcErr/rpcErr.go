@@ -5,11 +5,15 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+//这里使用了grpc的status来处理rpc错误，但code进行了自定义以知晓具体错误
+
 const (
 	DataBaseErrorCode codes.Code = iota + 1000
 	CacheErrorCode
 	PasswordEncryptFailedCode
 	MQErrorCode
+
+	ConvertStringCode
 )
 
 const (
@@ -31,6 +35,7 @@ var errCodeMap = map[codes.Code]string{
 	UserNotExistCode:     "用户不存在",
 
 	CommentNotExistCode: "评论不存在",
+	ConvertStringCode:   "经纬度转换类型错误",
 }
 
 var (
@@ -41,6 +46,7 @@ var (
 	PassWordEncryptFailed = NewRpcError(PasswordEncryptFailedCode)
 	UserNotExist          = NewRpcError(UserNotExistCode)
 	CommentNotExist       = NewRpcError(CommentNotExistCode)
+	ConvertString         = NewRpcError(ConvertStringCode)
 )
 
 type RpcError struct {

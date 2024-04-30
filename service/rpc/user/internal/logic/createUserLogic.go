@@ -2,9 +2,13 @@ package logic
 
 import (
 	"context"
-
+	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/grpc/status"
+	"orientation-platform/common/error/rpcErr"
+	"orientation-platform/common/model"
 	"orientation-platform/service/rpc/user/internal/svc"
 	"orientation-platform/service/rpc/user/types/user"
+	"strconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +28,75 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateUserLogic) CreateUser(in *user.CreateUserRequest) (*user.CreatUserReply, error) {
-	// todo: add your logic here and delete this line
+	tx := l.svcCtx.DBList.Mysql.Begin()
 
-	return &user.CreatUserReply{}, nil
+	// 检查是否已经存在
+	var count int64
+	if err := tx.Model(&model.User{}).Where("username = ?", in.Name).Count(&count).Error; err != nil {
+		tx.Rollback()
+		return nil, status.Error(rpcErr.DataBaseError.Code, err.Error())
+	}
+	if count > 0 {
+		tx.Rollback()
+		return nil, status.Error(rpcErr.UserAlreadyExist.Code, rpcErr.UserAlreadyExist.Message)
+	}
+
+	// 密码加密
+	password, err := bcrypt.GenerateFromPassword([]byte(in.Password), bcrypt.DefaultCost)
+	if err != nil {
+		tx.Rollback()
+		return nil, status.Error(rpcErr.PassWordEncryptFailed.Code, err.Error())
+	}
+
+	//转化经纬度
+	Longitude, err := strconv.ParseFloat(in.Longitude, 64)
+	if err != nil {
+		return nil, status.Error(rpcErr.ConvertString.Code, err.Error())
+	}
+
+	Latitude, err := strconv.ParseFloat(in.Latitude, 64)
+	if err != nil {
+		return nil, status.Error(rpcErr.ConvertString.Code, err.Error())
+	}
+
+	//判断性别
+	// 获取第 17 位数字
+	genderDigit := in.IdCard[16]
+
+	// 根据第 17 位数字判断性别
+	var sex int64
+	if genderDigit%2 == '1' {
+		sex = 1
+	} else {
+		sex = 0
+	}
+
+	// 准备数据
+	newUser := &model.User{
+		Username: in.Name,
+		Password: string(password),
+		Collage:  in.Collage,
+		Sex:      sex,
+		IdCard:   in.IdCard,
+		RegAddress: model.Location{
+			Address:   in.Address,
+			Latitude:  Latitude,
+			Longitude: Longitude,
+		},
+		AvatarUrl: in.AvatarUrl,
+	}
+
+	// 插入数据
+	if err := tx.Create(newUser).Error; err != nil {
+		tx.Rollback()
+		return nil, status.Error(rpcErr.DataBaseError.Code, err.Error())
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, status.Error(rpcErr.DataBaseError.Code, err.Error())
+	}
+
+	return &user.CreatUserReply{
+		Id: int64(newUser.ID),
+	}, nil
 }

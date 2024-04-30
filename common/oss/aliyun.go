@@ -23,7 +23,7 @@ func AliyunInit(AliyunCfg AliyunCfg) *oss.Client {
 	return client
 }
 
-func UploadVideoToOss(AliyunClient *oss.Client, bucketName string, objectName string, reader multipart.File) (bool, error) {
+func UploadImageToOss(AliyunClient *oss.Client, bucketName string, objectName string, reader multipart.File) (bool, error) {
 	bucket, err := AliyunClient.Bucket(bucketName)
 	if err != nil {
 		return false, err
@@ -36,7 +36,7 @@ func UploadVideoToOss(AliyunClient *oss.Client, bucketName string, objectName st
 	return true, nil
 }
 
-func GetOssVideoUrlAndImgUrl(AliyunCfg AliyunCfg, objectName string) (string, string) {
+func GetOssImgUrl(AliyunCfg AliyunCfg, objectName string) string {
 	url := "https://" + AliyunCfg.BucketName + "." + AliyunCfg.Endpoint + "/" + objectName
-	return url, url + "?x-oss-process=video/snapshot,t_0,f_jpg,w_0,h_0,m_fast,ar_auto"
+	return url
 }

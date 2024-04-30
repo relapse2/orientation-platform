@@ -10,7 +10,7 @@ type Ad struct {
 	ClickRate float64
 	ImageUrl  string `gorm:"not null"`
 	SiteUrl   string `gorm:"not null"`
-	TargetNum int64
+	TargetID  uint
 	Target    Target //最多给三个关键词
 }
 

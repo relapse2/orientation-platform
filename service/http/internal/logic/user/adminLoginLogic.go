@@ -2,6 +2,11 @@ package user
 
 import (
 	"context"
+	"golang.org/x/crypto/bcrypt"
+	"orientation-platform/common/error/apiErr"
+	"orientation-platform/common/error/rpcErr"
+	"orientation-platform/common/utils"
+	"orientation-platform/service/rpc/user/types/user"
 
 	"orientation-platform/service/http/internal/svc"
 	"orientation-platform/service/http/internal/types"
@@ -24,7 +29,38 @@ func NewAdminLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AdminL
 }
 
 func (l *AdminLoginLogic) AdminLogin(req *types.AdminLoginRequest) (resp *types.AdminLoginReply, err error) {
-	// todo: add your logic here and delete this line
+	// 调用rpc
+	GetUserByNameReply, err := l.svcCtx.UserRpc.GetAdminByName(l.ctx, &user.GetAdminByNameRequest{
+		Name: req.Username,
+	})
+	if rpcErr.Is(err, rpcErr.UserNotExist) {
+		return nil, apiErr.UserNotFound
+	} else if err != nil {
+		logx.WithContext(l.ctx).Errorf("LoginLogic.Login GetUserByName err: %v", err)
+		return nil, apiErr.InternalError(l.ctx, err.Error())
+	}
 
-	return
+	// 校验密码
+	err = bcrypt.CompareHashAndPassword([]byte(GetUserByNameReply.Password), []byte(req.Password))
+	if err != nil {
+		return nil, apiErr.PasswordIncorrect
+	}
+
+	// 生成 token
+	jwtToken, err := utils.CreateToken(
+		GetUserByNameReply.Id,
+		l.svcCtx.Config.AdminAuth.AccessSecret,
+		l.svcCtx.Config.AdminAuth.AccessExpire,
+	)
+
+	if err != nil {
+		logx.WithContext(l.ctx).Errorf("LoginLogic.Login CreateToken err: %v", err)
+		return nil, apiErr.GenerateTokenFailed
+	}
+
+	return &types.AdminLoginReply{
+		BasicReply: types.BasicReply(apiErr.Success),
+		UserId:     GetUserByNameReply.Id,
+		Token:      jwtToken,
+	}, nil
 }

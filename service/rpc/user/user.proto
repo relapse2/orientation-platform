@@ -49,7 +49,7 @@ message GetUserReply {
   int64   Point = 4;
   string  AvatarUrl = 5;
   string  CharacterUrl = 6;
-  string  Sex = 7;
+  int64   Sex = 7;
   string  Collage = 8;
 }
 
@@ -66,6 +66,12 @@ message GetAdminReply {
 message CreateUserRequest {
   string Name = 1;
   string Password = 2;
+  string Collage = 3;
+  string IdCard = 4;
+  string Address = 5;
+  string Latitude = 6;
+  string Longitude = 7;
+  string AvatarUrl = 8;
 }
 
 message CreatUserReply {

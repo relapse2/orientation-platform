@@ -16,14 +16,14 @@ type User {
 }
 
 //Admin用户信息
-type Admin struct {
+type Admin {
     Id            int64    `json:"id"`
     Username     string `json:"username"`
     Password     string `json:"password"`
 }
 
 //学生信息
-type Student struct {
+type Student {
     Id       int64    `json:"id"`
     Name     string   `json:"name"`
     Collage  string   `json:"collage"`

@@ -17,7 +17,7 @@ service app {
     post /platform/user/adminlogin (AdminLoginRequest) returns (AdminLoginReply)
 }
 
-// 用户注册，头像图片放在data中识别
+// 用户注册，头像图片放在avatar中识别
 type (
     RegisterRequest {
         Username string `form:"username"`

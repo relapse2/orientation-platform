@@ -2,6 +2,10 @@ package logic
 
 import (
 	"context"
+	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
+	"orientation-platform/common/error/rpcErr"
+	"orientation-platform/common/model"
 
 	"orientation-platform/service/rpc/user/internal/svc"
 	"orientation-platform/service/rpc/user/types/user"
@@ -24,7 +28,21 @@ func NewGetAdminByNameLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetAdminByNameLogic) GetAdminByName(in *user.GetAdminByNameRequest) (*user.GetAdminReply, error) {
-	// todo: add your logic here and delete this line
+	// 准备数据
+	result := &model.Admin{}
 
-	return &user.GetAdminReply{}, nil
+	// 查询数据
+	err := l.svcCtx.DBList.Mysql.Where("username = ?", in.Name).First(result).Error
+
+	if err == gorm.ErrRecordNotFound {
+		return nil, status.Error(rpcErr.UserNotExist.Code, rpcErr.UserNotExist.Message)
+	} else if err != nil {
+		return nil, status.Error(rpcErr.DataBaseError.Code, err.Error())
+	}
+
+	return &user.GetAdminReply{
+		Id:       int64(result.ID),
+		Name:     result.Username,
+		Password: result.Password,
+	}, nil
 }

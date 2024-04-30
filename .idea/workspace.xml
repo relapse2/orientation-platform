@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1b7630a3-af09-4834-b006-f78d581c2a77" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/apis/ad.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/apis/ad.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/apis/task.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/apis/task.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/apis/user.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/apis/user.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/app.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/app.api" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/internal/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/handler/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/http/internal/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/types/types.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +44,8 @@
     &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/codeProject/Go_WorkSpace/h68u-tiktok-app-microservice&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/codeProject/Go_WorkSpace/orientation-platform&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
 }</component>
