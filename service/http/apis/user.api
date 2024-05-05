@@ -75,6 +75,7 @@ service app {
 // 获取用户信息
 type (
     GetUserInfoRequest {
+        UserId int64 `form:"user_id"`
         Token  string `form:"token"`
     }
     GetUserInfoReply {
@@ -106,11 +107,11 @@ service app {
     post /platform/user/visual (UserVisualRequest) returns (UserVisualReply)
 }
 
-// 导入学生信息,还有一组学生照片没写出来
+// 导入学生信息，不使用学生照片了
 type (
     AdminLoadStuRequest {
+        Token   string   `json:"token"`
         Student []Student `json:"student"`
-        Token  string `form:"token"`
     }
     AdminLoadStuReply {
         BasicReply

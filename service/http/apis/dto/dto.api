@@ -11,6 +11,7 @@ type User {
     Name          string   `json:"name"`
     Collage       string   `json:"collage"`
     AvatarUrl     string   `json:"avatar_url"`
+    Sex           int64   `json:"sex"`
     Point         int64    `json:"point"`
     CharacterUrl  string   `json:"character_url"`
 }
@@ -24,7 +25,6 @@ type Admin {
 
 //学生信息
 type Student {
-    Id       int64    `json:"id"`
     Name     string   `json:"name"`
     Collage  string   `json:"collage"`
     IdCard   string     `json:"id_card"`

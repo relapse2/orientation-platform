@@ -70,6 +70,7 @@ type User struct {
 	Name         string `json:"name"`
 	Collage      string `json:"collage"`
 	AvatarUrl    string `json:"avatar_url"`
+	Sex          int64  `json:"sex"`
 	Point        int64  `json:"point"`
 	CharacterUrl string `json:"character_url"`
 }
@@ -81,7 +82,6 @@ type Admin struct {
 }
 
 type Student struct {
-	Id      int64  `json:"id"`
 	Name    string `json:"name"`
 	Collage string `json:"collage"`
 	IdCard  string `json:"id_card"`
@@ -246,7 +246,8 @@ type AdminLoginReply struct {
 }
 
 type GetUserInfoRequest struct {
-	Token string `form:"token"`
+	UserId int64  `form:"user_id"`
+	Token  string `form:"token"`
 }
 
 type GetUserInfoReply struct {
@@ -263,8 +264,8 @@ type UpgradeCharReply struct {
 }
 
 type AdminLoadStuRequest struct {
+	Token   string    `json:"token"`
 	Student []Student `json:"student"`
-	Token   string    `form:"token"`
 }
 
 type AdminLoadStuReply struct {

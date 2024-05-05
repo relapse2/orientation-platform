@@ -30,15 +30,21 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateUserLogic) CreateUser(in *user.CreateUserRequest) (*user.CreatUserReply, error) {
 	tx := l.svcCtx.DBList.Mysql.Begin()
 
-	// 检查是否已经存在
-	var count int64
-	if err := tx.Model(&model.User{}).Where("username = ?", in.Name).Count(&count).Error; err != nil {
+	//检查是否有匹配的学生信息已经导入,以及是否已经存在此学生
+	result := &model.Student{}
+	if err := tx.Model(&model.Student{}).Where("id_card = ?", in.IdCard).Limit(1).Find(result).Error; err != nil {
 		tx.Rollback()
 		return nil, status.Error(rpcErr.DataBaseError.Code, err.Error())
 	}
-	if count > 0 {
+	if result.ID == 0 {
+		return nil, status.Error(rpcErr.StuNotLoaded.Code, rpcErr.StuNotLoaded.Message)
+	}
+
+	if result.IfVerified == true {
 		tx.Rollback()
 		return nil, status.Error(rpcErr.UserAlreadyExist.Code, rpcErr.UserAlreadyExist.Message)
+	} else {
+		tx.Model(result).Update("IfVerified", true)
 	}
 
 	// 密码加密

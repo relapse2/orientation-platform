@@ -18,6 +18,8 @@ const (
 
 const (
 	UserAlreadyExistCode codes.Code = iota + 2000
+	StuNotLoadedCode
+	StuAlreadyLoadedCode
 	UserNotExistCode
 )
 
@@ -31,6 +33,8 @@ var errCodeMap = map[codes.Code]string{
 	PasswordEncryptFailedCode: "密码加密失败",
 	MQErrorCode:               "消息队列错误",
 
+	StuNotLoadedCode:     "用户对应学生信息未导入",
+	StuAlreadyLoadedCode: "用户对应学生信息已导入",
 	UserAlreadyExistCode: "用户已存在",
 	UserNotExistCode:     "用户不存在",
 
@@ -39,6 +43,8 @@ var errCodeMap = map[codes.Code]string{
 }
 
 var (
+	StuNotLoaded          = NewRpcError(StuNotLoadedCode)
+	StuAlreadyLoaded      = NewRpcError(StuAlreadyLoadedCode)
 	UserAlreadyExist      = NewRpcError(UserAlreadyExistCode)
 	DataBaseError         = NewRpcError(DataBaseErrorCode)
 	CacheError            = NewRpcError(CacheErrorCode)

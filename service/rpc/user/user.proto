@@ -9,17 +9,16 @@ message Empty {}
 
 // 学生信息结构体
 message Student {
-  int64 Id = 1;
-  string Name = 2;
-  string Id_card = 3;
-  string ImageUrl = 4;
+  string Name = 1;
+  string IdCard = 2;
+  string Collage = 3;
 }
 //Rank 结构体
 message Rank {
   int64 Rank = 1;
   int64 Id = 2;
   string Name = 3;
-  string Avatar_url = 4;
+  string AvatarUrl = 4;
   int64 Point = 5;
 }
 
