@@ -70,11 +70,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/platform/task/init",
-					Handler: task.TaskInitHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
 					Path:    "/platform/task/do",
 					Handler: task.DoTaskHandler(serverCtx),
 				},
@@ -96,6 +91,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.AdminAuth},
 			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/platform/task/adminsetask",
+					Handler: task.AdminSetTaskHandler(serverCtx),
+				},
 				{
 					Method:  http.MethodGet,
 					Path:    "/platform/task/admininfo",

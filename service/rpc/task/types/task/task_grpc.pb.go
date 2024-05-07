@@ -23,7 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TaskClient interface {
 	GetTaskList(ctx context.Context, in *GetTaskListRequest, opts ...grpc.CallOption) (*TaskListReply, error)
-	TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*TaskListReply, error)
+	TaskSet(ctx context.Context, in *TaskSetRequest, opts ...grpc.CallOption) (*Empty, error)
+	TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*Empty, error)
 	DoTask(ctx context.Context, in *DoTaskRequest, opts ...grpc.CallOption) (*DoTaskReply, error)
 	TaskInfo(ctx context.Context, in *TaskInfoRequest, opts ...grpc.CallOption) (*TaskInfoReply, error)
 	Rank(ctx context.Context, in *RankRequest, opts ...grpc.CallOption) (*RankReply, error)
@@ -49,8 +50,17 @@ func (c *taskClient) GetTaskList(ctx context.Context, in *GetTaskListRequest, op
 	return out, nil
 }
 
-func (c *taskClient) TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*TaskListReply, error) {
-	out := new(TaskListReply)
+func (c *taskClient) TaskSet(ctx context.Context, in *TaskSetRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/task.Task/TaskSet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskClient) TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/task.Task/TaskInit", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -117,7 +127,8 @@ func (c *taskClient) TaskVisual(ctx context.Context, in *Empty, opts ...grpc.Cal
 // for forward compatibility
 type TaskServer interface {
 	GetTaskList(context.Context, *GetTaskListRequest) (*TaskListReply, error)
-	TaskInit(context.Context, *TaskInitRequest) (*TaskListReply, error)
+	TaskSet(context.Context, *TaskSetRequest) (*Empty, error)
+	TaskInit(context.Context, *TaskInitRequest) (*Empty, error)
 	DoTask(context.Context, *DoTaskRequest) (*DoTaskReply, error)
 	TaskInfo(context.Context, *TaskInfoRequest) (*TaskInfoReply, error)
 	Rank(context.Context, *RankRequest) (*RankReply, error)
@@ -134,7 +145,10 @@ type UnimplementedTaskServer struct {
 func (UnimplementedTaskServer) GetTaskList(context.Context, *GetTaskListRequest) (*TaskListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTaskList not implemented")
 }
-func (UnimplementedTaskServer) TaskInit(context.Context, *TaskInitRequest) (*TaskListReply, error) {
+func (UnimplementedTaskServer) TaskSet(context.Context, *TaskSetRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TaskSet not implemented")
+}
+func (UnimplementedTaskServer) TaskInit(context.Context, *TaskInitRequest) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TaskInit not implemented")
 }
 func (UnimplementedTaskServer) DoTask(context.Context, *DoTaskRequest) (*DoTaskReply, error) {
@@ -182,6 +196,24 @@ func _Task_GetTaskList_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TaskServer).GetTaskList(ctx, req.(*GetTaskListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Task_TaskSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskSetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServer).TaskSet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/task.Task/TaskSet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServer).TaskSet(ctx, req.(*TaskSetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -322,6 +354,10 @@ var Task_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTaskList",
 			Handler:    _Task_GetTaskList_Handler,
+		},
+		{
+			MethodName: "TaskSet",
+			Handler:    _Task_TaskSet_Handler,
 		},
 		{
 			MethodName: "TaskInit",

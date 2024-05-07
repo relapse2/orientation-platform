@@ -8,11 +8,8 @@ import "apis/dto/dto.api"
     group: task
 )
 service app {
-    @handler TaskList // 任务列表
+    @handler TaskList // 任务列表，如果为空初始化任务并返回，暂时未设置则进行错误提示
     get /platform/task/list (TaskListRequest) returns (TaskListReply)
-
-    @handler TaskInit // 用户手动初始化，返回任务列表，目前固定任务
-    post /platform/task/init (TaskInitRequest) returns (TaskInitReply)
 
     @handler DoTask //处理任务(处理任务不成功，则转交给人工审核，改变一下state)
     post /platform/task/do (DoTaskRequest) returns (DoTaskReply)
@@ -33,17 +30,6 @@ type (
     TaskListReply {
         BasicReply
         TaskList []Task `json:"task_list"`
-    }
-)
-
-// 初始化任务
-type (
-    TaskInitRequest {
-        Token  string `form:"token"`
-    }
-    TaskInitReply {
-        BasicReply
-        TaskList []Task   `json:"task_list"`
     }
 )
 
@@ -100,7 +86,10 @@ type (
     middleware: AdminAuth
     group: task
 )
-service app {
+service app {           //后续可能可以加一个修改的接口
+    @handler AdminSetTask // 指定对象任务设置
+    post /platform/task/adminsetask (AdminSetTaskRequest) returns (AdminSetTaskReply)
+
     @handler AdminTaskInfo // 任务信息
     get /platform/task/admininfo (AdminTaskInfoRequest) returns (AdminTaskInfoReply)
 
@@ -114,6 +103,22 @@ service app {
     post /platform/task/visual (TaskVisualRequest) returns (TaskVisualReply)
 
 }
+
+
+// 指定对象任务设置，暂时就按照collage来进行设置和判断,一个一个任务设置,有form data中传入问题的图片和参考答案图片
+type (
+    AdminSetTaskRequest {
+        Token  string `form:"token"`
+        Collage string `form:"collage"`
+        Title         string   `form:"title"`
+        Type          int64    `form:"type"`
+        Text          string   `form:"text"`
+        Bonus         int64    `form:"bonus"`
+    }
+    AdminSetTaskReply {
+        BasicReply
+    }
+)
 
 // 获取单个任务信息,admin版，实际上和上面的一样,调用同一个rpc即可
 type (

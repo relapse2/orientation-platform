@@ -27,7 +27,12 @@ func (s *TaskServer) GetTaskList(ctx context.Context, in *task.GetTaskListReques
 	return l.GetTaskList(in)
 }
 
-func (s *TaskServer) TaskInit(ctx context.Context, in *task.TaskInitRequest) (*task.TaskListReply, error) {
+func (s *TaskServer) TaskSet(ctx context.Context, in *task.TaskSetRequest) (*task.Empty, error) {
+	l := logic.NewTaskSetLogic(ctx, s.svcCtx)
+	return l.TaskSet(in)
+}
+
+func (s *TaskServer) TaskInit(ctx context.Context, in *task.TaskInitRequest) (*task.Empty, error) {
 	l := logic.NewTaskInitLogic(ctx, s.svcCtx)
 	return l.TaskInit(in)
 }

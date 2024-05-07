@@ -27,11 +27,13 @@ type (
 	TaskInfoRequest       = task.TaskInfoRequest
 	TaskInitRequest       = task.TaskInitRequest
 	TaskListReply         = task.TaskListReply
+	TaskSetRequest        = task.TaskSetRequest
 	TaskVisualReply       = task.TaskVisualReply
 
 	Task interface {
 		GetTaskList(ctx context.Context, in *GetTaskListRequest, opts ...grpc.CallOption) (*TaskListReply, error)
-		TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*TaskListReply, error)
+		TaskSet(ctx context.Context, in *TaskSetRequest, opts ...grpc.CallOption) (*Empty, error)
+		TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*Empty, error)
 		DoTask(ctx context.Context, in *DoTaskRequest, opts ...grpc.CallOption) (*DoTaskReply, error)
 		TaskInfo(ctx context.Context, in *TaskInfoRequest, opts ...grpc.CallOption) (*TaskInfoReply, error)
 		Rank(ctx context.Context, in *RankRequest, opts ...grpc.CallOption) (*RankReply, error)
@@ -56,7 +58,12 @@ func (m *defaultTask) GetTaskList(ctx context.Context, in *GetTaskListRequest, o
 	return client.GetTaskList(ctx, in, opts...)
 }
 
-func (m *defaultTask) TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*TaskListReply, error) {
+func (m *defaultTask) TaskSet(ctx context.Context, in *TaskSetRequest, opts ...grpc.CallOption) (*Empty, error) {
+	client := task.NewTaskClient(m.cli.Conn())
+	return client.TaskSet(ctx, in, opts...)
+}
+
+func (m *defaultTask) TaskInit(ctx context.Context, in *TaskInitRequest, opts ...grpc.CallOption) (*Empty, error) {
 	client := task.NewTaskClient(m.cli.Conn())
 	return client.TaskInit(ctx, in, opts...)
 }

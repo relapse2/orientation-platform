@@ -31,7 +31,8 @@ message Rank {
 
 service Task {
   rpc GetTaskList(GetTaskListRequest) returns (TaskListReply);
-  rpc TaskInit(TaskInitRequest) returns (TaskListReply);
+  rpc TaskSet(TaskSetRequest) returns (Empty);
+  rpc TaskInit(TaskInitRequest) returns (Empty);
   rpc DoTask(DoTaskRequest) returns (DoTaskReply);
   rpc TaskInfo(TaskInfoRequest) returns (TaskInfoReply);
   rpc Rank(RankRequest) returns (RankReply);  //排序按照最晚完成的任务时间，按照task的UpdateTime比较，在UserRpc的对应排序之后
@@ -44,8 +45,19 @@ message GetTaskListRequest {
   int64 User_Id = 1;
 }
 
+message TaskSetRequest{
+  string Collage = 1;
+  string Title = 3;
+  int64 Type = 4;
+  string Text = 5;
+  string Question_url = 6;
+  string Answer_url = 7;
+  int64 Bonus = 8;
+}
+
 message TaskInitRequest {
   int64 User_Id = 1;
+  int64 Collage = 2;
 }
 
 message TaskListReply {

@@ -30,7 +30,7 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateUserLogic) CreateUser(in *user.CreateUserRequest) (*user.CreatUserReply, error) {
 	tx := l.svcCtx.DBList.Mysql.Begin()
 
-	//检查是否有匹配的学生信息已经导入,以及是否已经存在此学生
+	//检查是否有匹配的学生信息已经导入,以及是否user表中已经存在此学生
 	result := &model.Student{}
 	if err := tx.Model(&model.Student{}).Where("id_card = ?", in.IdCard).Limit(1).Find(result).Error; err != nil {
 		tx.Rollback()

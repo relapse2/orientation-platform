@@ -124,15 +124,6 @@ type TaskListReply struct {
 	TaskList []Task `json:"task_list"`
 }
 
-type TaskInitRequest struct {
-	Token string `form:"token"`
-}
-
-type TaskInitReply struct {
-	BasicReply
-	TaskList []Task `json:"task_list"`
-}
-
 type DoTaskRequest struct {
 	TaskId int64  `form:"task_id"`
 	Token  string `form:"token"`
@@ -171,6 +162,19 @@ type TaskInfoRequest struct {
 type TaskInfoReply struct {
 	BasicReply
 	Task Task `json:"task"`
+}
+
+type AdminSetTaskRequest struct {
+	Token   string `form:"token"`
+	Collage string `form:"collage"`
+	Title   string `form:"title"`
+	Type    int64  `form:"type"`
+	Text    string `form:"text"`
+	Bonus   int64  `form:"bonus"`
+}
+
+type AdminSetTaskReply struct {
+	BasicReply
 }
 
 type AdminTaskInfoRequest struct {
