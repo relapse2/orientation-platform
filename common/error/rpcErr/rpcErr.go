@@ -20,7 +20,9 @@ const (
 	UserAlreadyExistCode codes.Code = iota + 2000
 	StuNotLoadedCode
 	StuAlreadyLoadedCode
+	TaskNotLoadedCode
 	UserNotExistCode
+	TaskNotExistCode
 )
 
 const (
@@ -35,8 +37,11 @@ var errCodeMap = map[codes.Code]string{
 
 	StuNotLoadedCode:     "用户对应学生信息未导入",
 	StuAlreadyLoadedCode: "用户对应学生信息已导入",
+	TaskNotLoadedCode:    "学校对应任务信息未导入",
+
 	UserAlreadyExistCode: "用户已存在",
 	UserNotExistCode:     "用户不存在",
+	TaskNotExistCode:     "任务不存在",
 
 	CommentNotExistCode: "评论不存在",
 	ConvertStringCode:   "经纬度转换类型错误",
@@ -45,12 +50,14 @@ var errCodeMap = map[codes.Code]string{
 var (
 	StuNotLoaded          = NewRpcError(StuNotLoadedCode)
 	StuAlreadyLoaded      = NewRpcError(StuAlreadyLoadedCode)
+	TaskNotLoaded         = NewRpcError(TaskNotLoadedCode)
 	UserAlreadyExist      = NewRpcError(UserAlreadyExistCode)
 	DataBaseError         = NewRpcError(DataBaseErrorCode)
 	CacheError            = NewRpcError(CacheErrorCode)
 	MQError               = NewRpcError(MQErrorCode)
 	PassWordEncryptFailed = NewRpcError(PasswordEncryptFailedCode)
 	UserNotExist          = NewRpcError(UserNotExistCode)
+	TaskNotExist          = NewRpcError(TaskNotExistCode)
 	CommentNotExist       = NewRpcError(CommentNotExistCode)
 	ConvertString         = NewRpcError(ConvertStringCode)
 )

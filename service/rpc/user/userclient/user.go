@@ -13,24 +13,27 @@ import (
 )
 
 type (
-	AdminLoadStuRequest   = user.AdminLoadStuRequest
-	CreatUserReply        = user.CreatUserReply
-	CreateUserRequest     = user.CreateUserRequest
-	Empty                 = user.Empty
-	GetAdminByNameRequest = user.GetAdminByNameRequest
-	GetAdminReply         = user.GetAdminReply
-	GetUserByIdRequest    = user.GetUserByIdRequest
-	GetUserByNameRequest  = user.GetUserByNameRequest
-	GetUserReply          = user.GetUserReply
-	Rank                  = user.Rank
-	RankByPointsReply     = user.RankByPointsReply
-	Student               = user.Student
-	UpgradeCharRequest    = user.UpgradeCharRequest
-	UserVisualReply       = user.UserVisualReply
+	AdminLoadStuRequest       = user.AdminLoadStuRequest
+	CreatUserReply            = user.CreatUserReply
+	CreateUserRequest         = user.CreateUserRequest
+	Empty                     = user.Empty
+	GetAdminByNameRequest     = user.GetAdminByNameRequest
+	GetAdminReply             = user.GetAdminReply
+	GetUserByIdRequest        = user.GetUserByIdRequest
+	GetUserByNameRequest      = user.GetUserByNameRequest
+	GetUserIdByCollageReply   = user.GetUserIdByCollageReply
+	GetUserIdByCollageRequest = user.GetUserIdByCollageRequest
+	GetUserReply              = user.GetUserReply
+	Rank                      = user.Rank
+	RankByPointsReply         = user.RankByPointsReply
+	Student                   = user.Student
+	UpgradeCharRequest        = user.UpgradeCharRequest
+	UserVisualReply           = user.UserVisualReply
 
 	User interface {
 		GetUserByName(ctx context.Context, in *GetUserByNameRequest, opts ...grpc.CallOption) (*GetUserReply, error)
 		GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserReply, error)
+		GetUserIdByCollage(ctx context.Context, in *GetUserIdByCollageRequest, opts ...grpc.CallOption) (*GetUserIdByCollageReply, error)
 		GetAdminByName(ctx context.Context, in *GetAdminByNameRequest, opts ...grpc.CallOption) (*GetAdminReply, error)
 		CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreatUserReply, error)
 		UpdateChar(ctx context.Context, in *UpgradeCharRequest, opts ...grpc.CallOption) (*Empty, error)
@@ -58,6 +61,11 @@ func (m *defaultUser) GetUserByName(ctx context.Context, in *GetUserByNameReques
 func (m *defaultUser) GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserReply, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetUserById(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetUserIdByCollage(ctx context.Context, in *GetUserIdByCollageRequest, opts ...grpc.CallOption) (*GetUserIdByCollageReply, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetUserIdByCollage(ctx, in, opts...)
 }
 
 func (m *defaultUser) GetAdminByName(ctx context.Context, in *GetAdminByNameRequest, opts ...grpc.CallOption) (*GetAdminReply, error) {

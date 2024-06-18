@@ -25,6 +25,7 @@ message Rank {
 service User {
   rpc GetUserByName(GetUserByNameRequest) returns (GetUserReply);
   rpc GetUserById(GetUserByIdRequest) returns (GetUserReply);
+  rpc GetUserIdByCollage(GetUserIdByCollageRequest) returns (GetUserIdByCollageReply);
   rpc GetAdminByName(GetAdminByNameRequest) returns (GetAdminReply);
   rpc CreateUser(CreateUserRequest) returns (CreatUserReply);
   rpc UpdateChar(UpgradeCharRequest) returns (Empty);
@@ -62,6 +63,14 @@ message GetAdminReply {
   string  Password = 3;
 }
 
+message GetUserIdByCollageRequest {
+  string Collage = 1;
+}
+
+message GetUserIdByCollageReply {
+  repeated int64  IdList = 1;
+}
+
 message CreateUserRequest {
   string Name = 1;
   string Password = 2;
@@ -84,6 +93,7 @@ message UpgradeCharRequest {
 message AdminLoadStuRequest {
   repeated Student Students = 1;
 }
+
 
 message UserVisualReply {
   bytes image_data = 1;

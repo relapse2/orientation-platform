@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type UserClient interface {
 	GetUserByName(ctx context.Context, in *GetUserByNameRequest, opts ...grpc.CallOption) (*GetUserReply, error)
 	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserReply, error)
+	GetUserIdByCollage(ctx context.Context, in *GetUserIdByCollageRequest, opts ...grpc.CallOption) (*GetUserIdByCollageReply, error)
 	GetAdminByName(ctx context.Context, in *GetAdminByNameRequest, opts ...grpc.CallOption) (*GetAdminReply, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreatUserReply, error)
 	UpdateChar(ctx context.Context, in *UpgradeCharRequest, opts ...grpc.CallOption) (*Empty, error)
@@ -52,6 +53,15 @@ func (c *userClient) GetUserByName(ctx context.Context, in *GetUserByNameRequest
 func (c *userClient) GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserReply, error) {
 	out := new(GetUserReply)
 	err := c.cc.Invoke(ctx, "/user.User/GetUserById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserIdByCollage(ctx context.Context, in *GetUserIdByCollageRequest, opts ...grpc.CallOption) (*GetUserIdByCollageReply, error) {
+	out := new(GetUserIdByCollageReply)
+	err := c.cc.Invoke(ctx, "/user.User/GetUserIdByCollage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,6 +128,7 @@ func (c *userClient) RankByPoints(ctx context.Context, in *Empty, opts ...grpc.C
 type UserServer interface {
 	GetUserByName(context.Context, *GetUserByNameRequest) (*GetUserReply, error)
 	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserReply, error)
+	GetUserIdByCollage(context.Context, *GetUserIdByCollageRequest) (*GetUserIdByCollageReply, error)
 	GetAdminByName(context.Context, *GetAdminByNameRequest) (*GetAdminReply, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreatUserReply, error)
 	UpdateChar(context.Context, *UpgradeCharRequest) (*Empty, error)
@@ -136,6 +147,9 @@ func (UnimplementedUserServer) GetUserByName(context.Context, *GetUserByNameRequ
 }
 func (UnimplementedUserServer) GetUserById(context.Context, *GetUserByIdRequest) (*GetUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
+}
+func (UnimplementedUserServer) GetUserIdByCollage(context.Context, *GetUserIdByCollageRequest) (*GetUserIdByCollageReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserIdByCollage not implemented")
 }
 func (UnimplementedUserServer) GetAdminByName(context.Context, *GetAdminByNameRequest) (*GetAdminReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAdminByName not implemented")
@@ -200,6 +214,24 @@ func _User_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).GetUserById(ctx, req.(*GetUserByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserIdByCollage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserIdByCollageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserIdByCollage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.User/GetUserIdByCollage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserIdByCollage(ctx, req.(*GetUserIdByCollageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -326,6 +358,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserById",
 			Handler:    _User_GetUserById_Handler,
+		},
+		{
+			MethodName: "GetUserIdByCollage",
+			Handler:    _User_GetUserIdByCollage_Handler,
 		},
 		{
 			MethodName: "GetAdminByName",

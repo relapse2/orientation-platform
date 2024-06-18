@@ -29,7 +29,8 @@ type TaskClient interface {
 	TaskInfo(ctx context.Context, in *TaskInfoRequest, opts ...grpc.CallOption) (*TaskInfoReply, error)
 	Rank(ctx context.Context, in *RankRequest, opts ...grpc.CallOption) (*RankReply, error)
 	FailTaskList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*FailTaskListReply, error)
-	AdminCheckTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
+	FailTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
+	SuccessTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
 	TaskVisual(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TaskVisualReply, error)
 }
 
@@ -104,9 +105,18 @@ func (c *taskClient) FailTaskList(ctx context.Context, in *Empty, opts ...grpc.C
 	return out, nil
 }
 
-func (c *taskClient) AdminCheckTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
+func (c *taskClient) FailTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/task.Task/AdminCheckTask", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/task.Task/FailTask", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskClient) SuccessTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/task.Task/SuccessTask", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +143,8 @@ type TaskServer interface {
 	TaskInfo(context.Context, *TaskInfoRequest) (*TaskInfoReply, error)
 	Rank(context.Context, *RankRequest) (*RankReply, error)
 	FailTaskList(context.Context, *Empty) (*FailTaskListReply, error)
-	AdminCheckTask(context.Context, *AdminCheckTaskRequest) (*Empty, error)
+	FailTask(context.Context, *AdminCheckTaskRequest) (*Empty, error)
+	SuccessTask(context.Context, *AdminCheckTaskRequest) (*Empty, error)
 	TaskVisual(context.Context, *Empty) (*TaskVisualReply, error)
 	mustEmbedUnimplementedTaskServer()
 }
@@ -163,8 +174,11 @@ func (UnimplementedTaskServer) Rank(context.Context, *RankRequest) (*RankReply, 
 func (UnimplementedTaskServer) FailTaskList(context.Context, *Empty) (*FailTaskListReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FailTaskList not implemented")
 }
-func (UnimplementedTaskServer) AdminCheckTask(context.Context, *AdminCheckTaskRequest) (*Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminCheckTask not implemented")
+func (UnimplementedTaskServer) FailTask(context.Context, *AdminCheckTaskRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FailTask not implemented")
+}
+func (UnimplementedTaskServer) SuccessTask(context.Context, *AdminCheckTaskRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SuccessTask not implemented")
 }
 func (UnimplementedTaskServer) TaskVisual(context.Context, *Empty) (*TaskVisualReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TaskVisual not implemented")
@@ -308,20 +322,38 @@ func _Task_FailTaskList_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Task_AdminCheckTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Task_FailTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AdminCheckTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServer).AdminCheckTask(ctx, in)
+		return srv.(TaskServer).FailTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/task.Task/AdminCheckTask",
+		FullMethod: "/task.Task/FailTask",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServer).AdminCheckTask(ctx, req.(*AdminCheckTaskRequest))
+		return srv.(TaskServer).FailTask(ctx, req.(*AdminCheckTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Task_SuccessTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminCheckTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServer).SuccessTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/task.Task/SuccessTask",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServer).SuccessTask(ctx, req.(*AdminCheckTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -380,8 +412,12 @@ var Task_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Task_FailTaskList_Handler,
 		},
 		{
-			MethodName: "AdminCheckTask",
-			Handler:    _Task_AdminCheckTask_Handler,
+			MethodName: "FailTask",
+			Handler:    _Task_FailTask_Handler,
+		},
+		{
+			MethodName: "SuccessTask",
+			Handler:    _Task_SuccessTask_Handler,
 		},
 		{
 			MethodName: "TaskVisual",

@@ -89,7 +89,7 @@ type Student struct {
 
 type Task struct {
 	Id          int64  `json:"id"`
-	UserId      string `json:"user_id"`
+	UserId      int64  `json:"user_id"`
 	Title       string `json:"title"`
 	Type        int64  `json:"type"`
 	Text        string `json:"text"`

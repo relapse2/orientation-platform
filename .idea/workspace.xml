@@ -6,10 +6,39 @@
   <component name="ChangeListManager">
     <list default="true" id="1b7630a3-af09-4834-b006-f78d581c2a77" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/error/apiErr/code.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/error/apiErr/code.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/error/rpcErr/rpcErr.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/error/rpcErr/rpcErr.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/model/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/apis/dto/dto.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/apis/dto/dto.api" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/http/apis/task.api" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/apis/task.api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/handler/task/adminSetTaskHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/handler/task/adminSetTaskHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/handler/task/taskInitHandler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/handler/user/registerHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/handler/user/registerHandler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/adminCheckTaskLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/adminCheckTaskLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/adminSetTaskLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/adminSetTaskLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/adminTaskInfoLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/adminTaskInfoLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/failTaskListLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/failTaskListLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/taskInfoLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/taskInfoLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/taskInitLogic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/task/taskListLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/task/taskListLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/logic/user/registerLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/logic/user/registerLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/http/internal/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/http/internal/types/types.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/adminCheckTaskLogic.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/failTaskListLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/logic/failTaskListLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/getTaskListLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/logic/getTaskListLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskInfoLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskInfoLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskInitLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskInitLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskSetLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/logic/taskSetLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/internal/server/taskServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/internal/server/taskServer.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/rpc/task/task.proto" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/task.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/rpc/user/internal/logic/createUserLogic.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/internal/logic/createUserLogic.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/taskclient/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/taskclient/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/types/task/task.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/types/task/task.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/task/types/task/task_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/task/types/task/task_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/user/internal/server/userServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/internal/server/userServer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/user/types/user/user.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/types/user/user.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/user/types/user/user_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/types/user/user_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/user/user.proto" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/user.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/rpc/user/userclient/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/rpc/user/userclient/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

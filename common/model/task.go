@@ -2,9 +2,9 @@ package model
 
 import "gorm.io/gorm"
 
-type Task struct {
+type Task struct { //学生任务
 	gorm.Model
-	UserId     string `gorm:"index"`
+	UserId     int64 `gorm:"index"`
 	AnswerUrl  string
 	State      int64 `gorm:"index"` //0为未完成或失败，1为转交人工审核，2为处理成功
 	TaskInfoID uint

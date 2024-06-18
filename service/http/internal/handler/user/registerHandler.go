@@ -20,6 +20,7 @@ import (
 	logic "orientation-platform/service/http/internal/logic/user"
 	"orientation-platform/service/http/internal/svc"
 	"orientation-platform/service/http/internal/types"
+	"orientation-platform/service/rpc/task/types/task"
 	"orientation-platform/service/rpc/user/types/user"
 	"path/filepath"
 	"unicode"
@@ -185,6 +186,19 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := logic.NewRegisterLogic(r.Context(), svcCtx)
 		resp, err := l.Register(&req)
+
+		//任务初始化
+		_, err = svcCtx.TaskRpc.TaskInit(r.Context(), &task.TaskInitRequest{
+			UserId:  resp.UserId,
+			Collage: req.Collage,
+		})
+
+		if err != nil {
+			logx.WithContext(r.Context()).Errorf("TaskInit rpc error: %v", err)
+			httpx.Error(w, apiErr.InternalError(r.Context(), err.Error()))
+			return
+		}
+
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

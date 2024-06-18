@@ -57,9 +57,14 @@ func (s *TaskServer) FailTaskList(ctx context.Context, in *task.Empty) (*task.Fa
 	return l.FailTaskList(in)
 }
 
-func (s *TaskServer) AdminCheckTask(ctx context.Context, in *task.AdminCheckTaskRequest) (*task.Empty, error) {
-	l := logic.NewAdminCheckTaskLogic(ctx, s.svcCtx)
-	return l.AdminCheckTask(in)
+func (s *TaskServer) FailTask(ctx context.Context, in *task.AdminCheckTaskRequest) (*task.Empty, error) {
+	l := logic.NewFailTaskLogic(ctx, s.svcCtx)
+	return l.FailTask(in)
+}
+
+func (s *TaskServer) SuccessTask(ctx context.Context, in *task.AdminCheckTaskRequest) (*task.Empty, error) {
+	l := logic.NewSuccessTaskLogic(ctx, s.svcCtx)
+	return l.SuccessTask(in)
 }
 
 func (s *TaskServer) TaskVisual(ctx context.Context, in *task.Empty) (*task.TaskVisualReply, error) {

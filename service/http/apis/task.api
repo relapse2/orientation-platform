@@ -8,13 +8,13 @@ import "apis/dto/dto.api"
     group: task
 )
 service app {
-    @handler TaskList // 任务列表，如果为空初始化任务并返回，暂时未设置则进行错误提示
+    @handler TaskList // 任务列表，不管如何都先调用taskinit接口刷新,并返回，暂时未设置则进行错误提示,只要是这个大学的就自动接收这个任务
     get /platform/task/list (TaskListRequest) returns (TaskListReply)
 
-    @handler DoTask //处理任务(处理任务不成功，则转交给人工审核，改变一下state)
+    @handler DoTask //实际上就是尝试完成任务，处理任务(处理任务不成功，则转交给人工审核，改变一下state)
     post /platform/task/do (DoTaskRequest) returns (DoTaskReply)
 
-    @handler TaskInfo // 任务信息（和adminsettask共用一下rpc接口）
+    @handler TaskInfo // 任务信息
     get /platform/task (TaskInfoRequest) returns (TaskInfoReply)
 
     @handler Rank //任务排行榜（可以调user的rpc来进一步实现）
@@ -96,7 +96,7 @@ service app {           //后续可能可以加一个修改的接口
     @handler FailTaskList// 审核失败任务列表
     get /platform/task/faillist (FailTaskListRequest) returns (FailTaskListReply)
 
-    @handler AdminCheckTask //人工审核
+    @handler AdminCheckTask //人工审核,确定任务完成还是失败
     post /platform/task/check (AdminCheckTaskRequest) returns (AdminCheckTaskReply)
 
     @handler TaskVisual //任务完成情况可视化
@@ -148,7 +148,7 @@ type (
 type (
     AdminCheckTaskRequest {
         TaskId int64`form:"task_id"`
-        ActionType int64    `form:"action_type"`
+        ActionType int64    `form:"action_type"`    //成功为1，失败为2
         Token string `form:"token"`
     }
     AdminCheckTaskReply {

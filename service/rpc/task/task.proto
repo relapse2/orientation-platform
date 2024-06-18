@@ -10,7 +10,7 @@ message Empty {}
 // 任务信息结构体
 message TaskInfo {
   int64 Id = 1;
-  string UserId = 2;
+  int64 UserId = 2;
   string Title = 3;
   int64 Type = 4;
   string Text = 5;
@@ -25,24 +25,25 @@ message Rank {
   int64 Rank = 1;
   int64 Id = 2;
   string Name = 3;
-  string Avatar_url = 4;
+  string AvatarUrl = 4;
   int64 Point = 5;
 }
 
 service Task {
   rpc GetTaskList(GetTaskListRequest) returns (TaskListReply);
   rpc TaskSet(TaskSetRequest) returns (Empty);
-  rpc TaskInit(TaskInitRequest) returns (Empty);
+  rpc TaskInit(TaskInitRequest) returns (Empty);  //用于给用户的任务初始化，用于taskinfo接口，没查询到自动初始化
   rpc DoTask(DoTaskRequest) returns (DoTaskReply);
   rpc TaskInfo(TaskInfoRequest) returns (TaskInfoReply);
   rpc Rank(RankRequest) returns (RankReply);  //排序按照最晚完成的任务时间，按照task的UpdateTime比较，在UserRpc的对应排序之后
   rpc FailTaskList(Empty) returns (FailTaskListReply);
-  rpc AdminCheckTask (AdminCheckTaskRequest) returns (Empty);
+  rpc FailTask (AdminCheckTaskRequest) returns (Empty);
+  rpc SuccessTask (AdminCheckTaskRequest) returns (Empty);
   rpc TaskVisual(Empty) returns (TaskVisualReply);
 }
 
 message GetTaskListRequest {
-  int64 User_Id = 1;
+  int64 UserId = 1;
 }
 
 message TaskSetRequest{
@@ -50,14 +51,14 @@ message TaskSetRequest{
   string Title = 3;
   int64 Type = 4;
   string Text = 5;
-  string Question_url = 6;
-  string Answer_url = 7;
+  string QuestionUrl = 6;
+  string ReferAnswerUrl = 7;
   int64 Bonus = 8;
 }
 
 message TaskInitRequest {
-  int64 User_Id = 1;
-  int64 Collage = 2;
+  int64 UserId = 1;
+  string Collage = 2;
 }
 
 message TaskListReply {
@@ -65,7 +66,7 @@ message TaskListReply {
 }
 
 message DoTaskRequest {
-  int64 Task_Id = 1;
+  int64 TaskId = 1;
 }
 
 message DoTaskReply {
@@ -73,7 +74,7 @@ message DoTaskReply {
 }
 
 message TaskInfoRequest {
-  int64  Task_Id = 1;
+  int64  TaskId = 1;
 }
 
 message TaskInfoReply {
@@ -93,7 +94,7 @@ message FailTaskListReply {
 }
 
 message AdminCheckTaskRequest {
-  int64 Task_Id = 1;
+  int64 TaskId = 1;
   int64 ActionType = 2;
 }
 

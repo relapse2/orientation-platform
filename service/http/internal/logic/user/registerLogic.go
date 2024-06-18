@@ -60,6 +60,13 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		return nil, apiErr.GenerateTokenFailed
 	}
 
+	if rpcErr.Is(err, rpcErr.UserNotExist) {
+		return nil, apiErr.UserNotFound
+	} else if err != nil {
+		logx.WithContext(l.ctx).Errorf("RegisterLogic.Register GetUserByName err: %v", err)
+		return nil, apiErr.InternalError(l.ctx, err.Error())
+	}
+
 	return &types.RegisterReply{
 		BasicReply: types.BasicReply(apiErr.Success),
 		UserId:     GetUserByNameReply.Id,

@@ -2,6 +2,7 @@ package task
 
 import (
 	"context"
+	"orientation-platform/common/error/apiErr"
 
 	"orientation-platform/service/http/internal/svc"
 	"orientation-platform/service/http/internal/types"
@@ -24,7 +25,9 @@ func NewAdminSetTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Admi
 }
 
 func (l *AdminSetTaskLogic) AdminSetTask(req *types.AdminSetTaskRequest) (resp *types.AdminSetTaskReply, err error) {
-	// todo: add your logic here and delete this line
+	logx.WithContext(l.ctx).Infof("设置任务: %v", req)
 
-	return
+	return &types.AdminSetTaskReply{
+		BasicReply: types.BasicReply(apiErr.Success),
+	}, nil
 }

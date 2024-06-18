@@ -38,7 +38,8 @@ type (
 		TaskInfo(ctx context.Context, in *TaskInfoRequest, opts ...grpc.CallOption) (*TaskInfoReply, error)
 		Rank(ctx context.Context, in *RankRequest, opts ...grpc.CallOption) (*RankReply, error)
 		FailTaskList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*FailTaskListReply, error)
-		AdminCheckTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
+		FailTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
+		SuccessTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error)
 		TaskVisual(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TaskVisualReply, error)
 	}
 
@@ -88,9 +89,14 @@ func (m *defaultTask) FailTaskList(ctx context.Context, in *Empty, opts ...grpc.
 	return client.FailTaskList(ctx, in, opts...)
 }
 
-func (m *defaultTask) AdminCheckTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
+func (m *defaultTask) FailTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
 	client := task.NewTaskClient(m.cli.Conn())
-	return client.AdminCheckTask(ctx, in, opts...)
+	return client.FailTask(ctx, in, opts...)
+}
+
+func (m *defaultTask) SuccessTask(ctx context.Context, in *AdminCheckTaskRequest, opts ...grpc.CallOption) (*Empty, error) {
+	client := task.NewTaskClient(m.cli.Conn())
+	return client.SuccessTask(ctx, in, opts...)
 }
 
 func (m *defaultTask) TaskVisual(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*TaskVisualReply, error) {

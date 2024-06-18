@@ -32,6 +32,11 @@ func (s *UserServer) GetUserById(ctx context.Context, in *user.GetUserByIdReques
 	return l.GetUserById(in)
 }
 
+func (s *UserServer) GetUserIdByCollage(ctx context.Context, in *user.GetUserIdByCollageRequest) (*user.GetUserIdByCollageReply, error) {
+	l := logic.NewGetUserIdByCollageLogic(ctx, s.svcCtx)
+	return l.GetUserIdByCollage(in)
+}
+
 func (s *UserServer) GetAdminByName(ctx context.Context, in *user.GetAdminByNameRequest) (*user.GetAdminReply, error) {
 	l := logic.NewGetAdminByNameLogic(ctx, s.svcCtx)
 	return l.GetAdminByName(in)

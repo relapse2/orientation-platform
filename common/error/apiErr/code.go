@@ -21,8 +21,8 @@ var Success = newError(0, "Success")
 var (
 	InvalidParams      = newError(40001, "参数错误")
 	PasswordIncorrect  = newError(40002, "密码错误")
-	TaskActionUnknown  = newError(40003, "未知的审核任务操作")
-	FileUploadFailed   = newError(40004, "文件上传失败")
+	CheckActionUnknown = newError(40003, "未知的审核任务操作")
+	FileUploadFailed   = newError(40004, "文件上传失败") //实际上也包括了文件打开上传后的关闭失败
 	FileIsNotImage     = newError(40005, "文件不是图片")
 	InvalidRequestBody = newError(40005, "json解析错误")
 )
@@ -42,6 +42,7 @@ var (
 // 404 NOT FOUND
 var (
 	UserNotFound = newError(40401, "用户不存在")
+	TaskNotFound = newError(40402, "任务不存在")
 )
 
 // 409 CONFLICT
